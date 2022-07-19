@@ -50,8 +50,8 @@ nrepeat: Int
 
 # Parameters for Preprocessing
 name = "amazon"
-snapdir = "/home/h4/s8550570/data/amazon/snap/"
-savedir = "/home/h4/s8550570/data/amazon/"
+snapdir = "/data/amazon/snap/"
+savedir = "/data/amazon/"
 nprocs = 4
 nlandmarks = 100
 nvalidation = 1000
