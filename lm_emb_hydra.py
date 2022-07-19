@@ -92,7 +92,7 @@ class LHydra:
 		isotropic_adj :
 			Perform isotropic adjustment, ignoring Eigenvalues
 			(default: TRUE if dim is 2, FALSE else)
-		lorentz:
+		hydra:
 			Return radial and spherical coordinates (default: FALSE)
 		lorentz:
 			Return raw Lorentz coordinates (before projection to
