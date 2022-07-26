@@ -92,7 +92,7 @@ class LHydra:
 		isotropic_adj :
 			Perform isotropic adjustment, ignoring Eigenvalues
 			(default: TRUE if dim is 2, FALSE else)
-		hydra:
+		lorentz:
 			Return radial and spherical coordinates (default: FALSE)
 		lorentz:
 			Return raw Lorentz coordinates (before projection to
@@ -192,7 +192,7 @@ class LHydra:
 		x0_full[nonland_ids,0] = X_nonland[:,0]
 		x_min = x0_full.min()
 		
-		'''
+		
 		if hydra:
 			# Calculate radial coordinate
 			s = np.sqrt(np.sum(X_raw ** 2, axis=1))
@@ -201,7 +201,7 @@ class LHydra:
 			X = self.poincare_to_hyper(r=r, directional=directional)
 		else:
 			X = X_raw
-		
+			
 		# Calculate polar coordinates if dimension is 2
 		if dim == 2:
 			# calculate polar angle
@@ -219,21 +219,16 @@ class LHydra:
 				directional = np.array([np.cos(theta), np.sin(theta)]).transpose()
 				
 		if lorentz:
-			X_lorentz = np.stack((x0_full, X), axis=-1)
-		'''
-		print('*** DIMENSIONS OF X0 ' + str(x0_full.shape[0]) + ' and ' + str(x0_full.shape[1]))
-		print('*** DIMENSIONS OF XRAW ' + str(X_raw.shape[0]) + ' and ' + str(X_raw.shape[1]))
+			X_lorentz = np.concatenate((x0_full, X), axis=1)
 		
-		X_raw = np.stack((x0_full, X_raw), axis=-1)
-		
-		np.save(os.path.join(self.datadir, 'xstart'), X_raw)
-		print('*** DIMENSIONS OF XSTART ' + str(X_raw.shape[0]) + ' and ' + str(X_raw.shape[1]))
+		np.save(os.path.join(self.datadir, 'xstart'), X)
+		print('*** DIMENSIONS OF XSTART ' + str(X.shape[0]) + ' and ' + str(X.shape[1]))
 		self.split_xstart(nodes, nlm, self.datadir, self.nprocs)
 		
 		#stress = self.get_stress(curvature, X_raw[land_ids,:], D_land)
 		#stress_nonland = self.get_stress(curvature, X[nonland_ids,:], D_nonland)
 		
-		return X_raw #stress #+ stress_nonland
+		return X #stress #+ stress_nonland
 		
 	def split_xstart(self, nodes, landmarks, dataloc, nprocs):
 		'''
