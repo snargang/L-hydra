@@ -92,7 +92,7 @@ class LHydra:
 		isotropic_adj :
 			Perform isotropic adjustment, ignoring Eigenvalues
 			(default: TRUE if dim is 2, FALSE else)
-		lorentz:
+		hydra:
 			Return radial and spherical coordinates (default: FALSE)
 		lorentz:
 			Return raw Lorentz coordinates (before projection to
@@ -100,8 +100,8 @@ class LHydra:
 			
 		Yields
 		------
-		stress : float
-			The stress of the embedding
+		X : float array
+			Hyperbolic coordinates in chosen space
 		'''
 		
 		# load distance matrices and landmark indices (as computed during pre-processing)
@@ -226,9 +226,8 @@ class LHydra:
 		self.split_xstart(nodes, nlm, self.datadir, self.nprocs)
 		
 		#stress = self.get_stress(curvature, X_raw[land_ids,:], D_land)
-		#stress_nonland = self.get_stress(curvature, X[nonland_ids,:], D_nonland)
 		
-		return X #stress #+ stress_nonland
+		return X
 		
 	def split_xstart(self, nodes, landmarks, dataloc, nprocs):
 		'''
